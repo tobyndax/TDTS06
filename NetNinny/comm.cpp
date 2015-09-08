@@ -12,8 +12,13 @@ std::string Comm::communicate(std::string content){
     std::cerr << "Could not create socket to web.\n";
     return "";
   }
+
   std::map<std::string,std::string> m = parseHttp(content);
-  std::string address = "ida.liu.se";
+  std::map<std::string,std::string>::iterator it;
+  std::string address =  m.find("Host")->second;
+
+  std::cout << address << std::endl;
+
   hostent* host = gethostbyname(address.c_str());
   if(!host)
   {

@@ -15,6 +15,9 @@
 #include <string>
 #include <cctype>
 
+#include <algorithm>
+#include <map>
+
 #include "parser.h"
 
 

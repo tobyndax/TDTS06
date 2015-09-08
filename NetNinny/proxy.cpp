@@ -30,7 +30,7 @@ void Proxy::connectBrowser(){
   bool listening = true;
   Comm* comm = new Comm(allowedConns);
   while(listening){
-    std::cout << this->sniff() << std::endl;
+    comm->communicate(this->sniff());
   }
 }
 

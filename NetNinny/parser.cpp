@@ -3,6 +3,7 @@
 
 std::map<std::string,std::string> parseHttp(std::string s){
 
+  std::cout << "Now Parsing" << std::endl;
   std::map<std::string, std::string> m;
 
   std::istringstream resp(s);
