@@ -30,7 +30,11 @@ void Proxy::connectBrowser(){
   bool listening = true;
   Comm* comm = new Comm(allowedConns);
   while(listening){
-    comm->communicate(this->sniff());
+    if(!fork()){
+    std::string s = comm->communicate(this->sniff());
+    send(browserSocket,s.c_str(),s.size(),0);
+  }
+    close(browserSocket);
   }
 }
 
@@ -55,7 +59,7 @@ std::string Proxy::sniff(){
   socklen_t browAddrLen;
 
   this->browserSocket = accept(this->serverSocket, (sockaddr*)&browAddr, &browAddrLen);
-  if(!fork()){
+  if(true){
     std::cout << "New child created" << std::endl;
     int n = 0, buffersize = 4000;
     char buffer[buffersize];
@@ -75,11 +79,11 @@ std::string Proxy::sniff(){
     //std::string out = "HTTP/1.1 301 Moved Permanently\r\nLocation: http://www.ida.liu.se/~TDTS04/labs/2011/ass2/error2.html\r\nConnection: Close\r\n\r\n";
     //send(this->browserSocket, out.c_str(), out.size(), 0);
     if (this->browserSocket){
-      close(this->browserSocket);
+      //close(this->browserSocket);
     }
     return content;
   }else{
-    close(this->browserSocket);
+    //close(this->browserSocket);
     return "";
 
   }

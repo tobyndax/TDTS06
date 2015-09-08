@@ -18,10 +18,5 @@ std::map<std::string,std::string> parseHttp(std::string s){
       ));
     }
   }
-
-  for(auto& kv: m) {
-    std::cout << "KEY: `" << kv.first << "`, VALUE: `" << kv.second << '`' << std::endl;
-  }
-
   return m;
 }
