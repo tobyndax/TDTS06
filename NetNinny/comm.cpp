@@ -25,7 +25,7 @@ std::string Comm::communicate(std::string content){
     std::cerr << "Host not found!\n";
     //std::string out = "Proxy could not find address. :S";
     //send(browser_socket, out.c_str(), out.size(), 0);
-    //return;
+    return "";
   }
 
   webserver.sin_family = AF_INET;
@@ -46,16 +46,14 @@ std::string Comm::communicate(std::string content){
 
   content = "";
 
-  int buffersize = 4000;
+  int buffersize = 4000000;
   char buffer[buffersize];
   int empty = 0;
 
-  while(canRead(webSocket, 2000))
+  while(canRead(webSocket, 250))
   {
     n = recv(webSocket, buffer, buffersize, 0);
-    if(n > 0)
-    std::cerr << "Got " << n << " bytes from webserver.\n";
-    else if(n < 0 || empty++ > 3)
+    if(n < 0 || empty++ > 3)
     break;
 
     content.append( std::string(buffer, n) );

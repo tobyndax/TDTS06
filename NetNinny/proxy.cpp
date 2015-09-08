@@ -30,7 +30,7 @@ void Proxy::connectBrowser(){
   bool listening = true;
   Comm* comm = new Comm(allowedConns);
   while(listening){
-    if(!fork()){
+    if(true){
     std::string s = comm->communicate(this->sniff());
     send(browserSocket,s.c_str(),s.size(),0);
   }
@@ -61,16 +61,14 @@ std::string Proxy::sniff(){
   this->browserSocket = accept(this->serverSocket, (sockaddr*)&browAddr, &browAddrLen);
   if(true){
     std::cout << "New child created" << std::endl;
-    int n = 0, buffersize = 4000;
+    int n = 0, buffersize = 400000;
     char buffer[buffersize];
     int empty = 0;
     std::string content = "";
-    while(canRead(this->browserSocket, 1000)){
+    while(canRead(this->browserSocket, 250)){
 
       n = recv(this->browserSocket, buffer, buffersize, 0);
-      if(n > 0)
-      std::cerr << "Got " << n << " bytes from browser.\n";
-      else if(n < 0 || empty++ > 3)
+      if(n < 0 || empty++ > 3)
       break;
       content.append(std::string(buffer, n));
 
