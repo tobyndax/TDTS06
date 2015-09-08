@@ -1,4 +1,4 @@
-#include "Proxy.h"
+#include "proxy.h"
 
 Proxy::Proxy(int proxyPort,int allowedConns){
   this->proxyPort = proxyPort;
