@@ -15,6 +15,13 @@ std::string Comm::communicate(std::string content){
 
   std::map<std::string,std::string> m = parseHttp(content);
   std::map<std::string,std::string>::iterator it;
+
+  if(m.find("Host")==m.end()){
+  	std::cerr << "Host not found in map! " << content.size() <<std::endl;
+  	std::cerr << content << std::endl;
+  	return "";
+  }
+
   std::string address =  m.find("Host")->second;
 
   std::cout << address << std::endl;
