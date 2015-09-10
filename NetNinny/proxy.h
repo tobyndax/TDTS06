@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
@@ -16,8 +17,6 @@
 #include <cctype>
 #include "comm.h"
 #include <signal.h>
-#include <thread>
-
 
 class Proxy
 {
