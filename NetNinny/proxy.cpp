@@ -40,7 +40,6 @@ void Proxy::connectBrowser(){
     std::cout << "Could not listen on server socket.\n";
     exit(0);
   }
-  bool listening = true;
   Comm* comm = new Comm(allowedConns);
 
   sa.sa_handler = sigchld_handler; // reap all dead processes
@@ -52,12 +51,11 @@ void Proxy::connectBrowser(){
   }
 
   while(1){
-    if(true){
+    if(!fork()){
       std::string s = comm->communicate(this->sniff());
-      std::cout << s << std::endl;
       if (s.size() > 0 )
         send(browserSocket,s.c_str(),s.size(),0);
-      //exit(0);
+      exit(0);
     }
     close(browserSocket);
   }
@@ -85,15 +83,15 @@ std::string Proxy::sniff(){
 
   this->browserSocket = accept(this->serverSocket, (sockaddr*)&browAddr, &browAddrLen);
   //std::cout << "New child created" << std::endl;
-  int n = 0, buffersize = 400000;
+  int n = 0, buffersize = 4000;
   char buffer[buffersize];
   int empty = 0;
   std::string content = "";
-  while(canRead(this->browserSocket, 2500)){
+  while(canRead(this->browserSocket, 500)){
 
     n = recv(this->browserSocket, buffer, buffersize, 0);
-    if(n <= 0 || empty++ > 3)
-    break;
+    if(n <= 0)
+      break;
     content.append(std::string(buffer, n));
 
   }

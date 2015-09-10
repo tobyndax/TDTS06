@@ -18,13 +18,11 @@ std::string Comm::communicate(std::string content){
 
   if(m.find("Host")==m.end()){
   	std::cerr << "Host not found in map! " << content.size() <<std::endl;
-  	std::cerr << content << std::endl;
+  	//std::cerr << content << std::endl;
   	return "";
   }
 
   std::string address =  m.find("Host")->second;
-
-  std::cout << address << std::endl;
 
   hostent* host = gethostbyname(address.c_str());
   if(!host)
@@ -60,7 +58,7 @@ std::string Comm::communicate(std::string content){
   while(canRead(webSocket, 250))
   {
     n = recv(webSocket, buffer, buffersize, 0);
-    if(n <= 0 || empty++ > 3)
+    if(n <= 0)
     break;
 
     content.append( std::string(buffer, n) );
