@@ -15,6 +15,7 @@
 #include <string>
 #include <cctype>
 #include "comm.h"
+#include <signal.h>
 
 class Proxy
 {

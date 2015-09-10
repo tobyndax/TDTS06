@@ -60,7 +60,7 @@ std::string Comm::communicate(std::string content){
   while(canRead(webSocket, 250))
   {
     n = recv(webSocket, buffer, buffersize, 0);
-    if(n < 0 || empty++ > 3)
+    if(n <= 0 || empty++ > 3)
     break;
 
     content.append( std::string(buffer, n) );
