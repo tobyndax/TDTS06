@@ -16,19 +16,23 @@
 #include <cctype>
 #include "comm.h"
 #include <signal.h>
+#include <thread>
+
 
 class Proxy
 {
 public:
-    Proxy(int,int);
-    int getPort();
-    std::string sniff();
+  Proxy(int,int);
+  int getPort();
+  std::string sniff();
 
 protected:
-    void connectBrowser();
-    int proxyPort;
-    int allowedConns;
-    bool canRead(int,unsigned int);
-    int serverSocket;
-    int browserSocket;
+  void task_1();
+  void connectBrowser();
+  int proxyPort;
+  int allowedConns;
+  bool canRead(int,unsigned int);
+  int serverSocket;
+  int browserSocket;
+  Comm* comm;
 };

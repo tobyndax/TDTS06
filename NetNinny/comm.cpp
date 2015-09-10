@@ -55,7 +55,7 @@ std::string Comm::communicate(std::string content){
   char buffer[buffersize];
   int empty = 0;
 
-  while(canRead(webSocket, 250))
+  while(canRead(webSocket, 500))
   {
     n = recv(webSocket, buffer, buffersize, 0);
     if(n <= 0)

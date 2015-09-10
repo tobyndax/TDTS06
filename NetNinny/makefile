@@ -1,7 +1,7 @@
 #Mac frameworks
 LDFLAGS =
 #Compiler flags, enable warnings
-GCCFLAGS = -Wall -std=c++0x
+GCCFLAGS = -Wall -std=c++0x -pthread
 #Binaries that are needed for all sub-compilations
 BINARIES = proxy.cpp comm.cpp main.cpp parser.cpp
 
