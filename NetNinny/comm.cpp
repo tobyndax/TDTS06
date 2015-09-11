@@ -93,13 +93,10 @@ std::string Comm::communicate(std::string content){
   std::map<std::string,std::string> mWeb = parseHttp2(content);
 
   std::string contentType =  mWeb.find("Content-Type")->second;
-  //std::cout << std::endl;
-
-  if(contentType == "text/html"){
-    //std::cerr <<"-----------Found text type----------\n";
+  if (contentType.find("text") != std::string::npos) {
+    std::cerr <<"-----------"+contentType+"----------\n";
     cens = censorContent(content);
     if(cens){
-      std::cerr <<"-----------BLOCK----------\n";
       return errorUrl2;
     }
   }

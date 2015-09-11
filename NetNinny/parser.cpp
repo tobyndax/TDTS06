@@ -8,7 +8,7 @@
 
 
 std::list<std::string> keywords = {"norrk\x94ping","norrkoping",
-"spongebob","britney","spears", "paris", "hilton","ipad", "kunskap"};
+"spongebob","britney","spears", "paris", "hilton","tomte","tomtar"};
 void printString(std::string s){
 
   for(char& c : s) {
