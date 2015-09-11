@@ -16,6 +16,10 @@ void printString(std::string s){
   }
 }
 
+//
+// Thanks to http://stackoverflow.com/questions/1079748/how-to-print-n-instead-of-a-newline
+//
+
 void printchar(unsigned char theChar){
 
   switch (theChar) {
