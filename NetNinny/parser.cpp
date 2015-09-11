@@ -57,18 +57,16 @@ std::string removeEnc(std::string content){
   std::string newContent;
   std::string line;
   std::string::size_type index;
-  while (std::getline(resp, line)  && line != "\r") {
+  while (std::getline(resp, line)) {
     index = line.find("Accept-Encoding:",0);
     if(index != std::string::npos){
-      std::cerr << "FOUND ENC___________________________:!"<<std::endl;
-      //newContent.append("Accept-Encoding: \r\n");
       continue;
     }else if(line == "\r"){
-    	newContent.append(line);
+    	newContent.append(line+"\n");
     	continue;
     }
     else{
-      newContent.append(line+"\r\n");
+      newContent.append(line+"\n");
     }
   }
   return newContent;
