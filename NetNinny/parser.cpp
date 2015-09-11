@@ -1,7 +1,7 @@
 #include "parser.h"
 
 std::list<std::string> keywords = {"norrk\x94ping","norrkoping",
-"spongebob","britney","spears", "paris", "hilton","ipad", "kunskap"};
+"spongebob","britney","spears", "paris", "hilton"};
 
 std::map<std::string,std::string> parseHttp(std::string s){
   std::map<std::string, std::string> m;
@@ -45,6 +45,7 @@ bool censorContent(std::string content){
   for (std::list<std::string>::iterator it=keywords.begin(); it != keywords.end(); ++it){
     std::size_t found = content.find(*it);
     if (found!=std::string::npos){
+      std::cerr <<"------Censor-----"+*it+"----------\n";
       return true;
     }
   }

@@ -59,7 +59,7 @@ std::string Comm::communicate(std::string content){
     close(webSocket);
     return "";
   }
-  
+
   content = removeEnc(content);
 
   int n;
@@ -85,11 +85,10 @@ std::string Comm::communicate(std::string content){
   std::map<std::string,std::string> mWeb = parseHttp(content);
 
   std::string contentType =  mWeb.find("Content-Type")->second;
-  if(contentType == "text/html"){
-    std::cerr <<"-----------Found text type----------\n";
+  if (contentType.find("text") != std::string::npos) {
+    std::cerr <<"-----------"+contentType+"----------\n";
     cens = censorContent(content);
     if(cens){
-      std::cerr <<"-----------BLOCK----------\n";
       return errorUrl2;
     }
   }
