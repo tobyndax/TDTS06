@@ -28,11 +28,21 @@ std::map<std::string,std::string> parseHttp(std::string s){
   return m;
 }
 
-bool censorURL(std::string content, std::map<std::string, std::string> m){
+bool censorURL(std::map<std::string, std::string> m){
 	std::string url = m.find("URL")->second;
 	std::transform(url.begin(), url.end(), url.begin(), ::tolower);
 	for (std::list<std::string>::iterator it=keywords.begin(); it != keywords.end(); ++it){
 		std::size_t found = url.find(*it);
+  		if (found!=std::string::npos){
+  			return true;
+  		}
+	}
+	return false;
+}
+bool censorContent(std::string content){
+	std::transform(content.begin(), content.end(), content.begin(), ::tolower);
+	for (std::list<std::string>::iterator it=keywords.begin(); it != keywords.end(); ++it){
+		std::size_t found = content.find(*it);
   		if (found!=std::string::npos){
   			return true;
   		}
