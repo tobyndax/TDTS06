@@ -1,5 +1,9 @@
 #include "comm.h"
 
+std::string errorUrl1 = "HTTP/1.1 301 Moved Permanently\r\nLocation: http://www.ida.liu.se/~TDTS04/labs/2011/ass2/error1.html\r\nConnection: Close\r\n\r\n";
+
+
+
 Comm::Comm(int allowedConns){
   this->allowedConns = allowedConns;
 
