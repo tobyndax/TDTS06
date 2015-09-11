@@ -22,17 +22,17 @@ std::string Comm::communicate(std::string content){
   std::map<std::string,std::string> m = parseHttp(content);
   bool cens = censorURL(m);
   if(cens){
-  	close(webSocket);
-  	return errorUrl1;
+    close(webSocket);
+    return errorUrl1;
   }
-  
+
   std::map<std::string,std::string>::iterator it;
 
   if(m.find("Host")==m.end()){
-  	std::cerr << "Host not found in map! " << content.size() <<std::endl;
-  	//std::cerr << content << std::endl;
-  	close(webSocket);
-  	return "";
+    std::cerr << "Host not found in map! " << content.size() <<std::endl;
+    //std::cerr << content << std::endl;
+    close(webSocket);
+    return "";
   }
 
   std::string address =  m.find("Host")->second;
@@ -59,6 +59,13 @@ std::string Comm::communicate(std::string content){
     close(webSocket);
     return "";
   }
+
+
+  std::cerr << content << std::endl;
+
+  content = removeEnc(content);
+  std::cerr << content << std::endl;
+
   int n;
   if((n = send(webSocket, content.c_str(), content.size(), 0)) < 0){
     std::cerr << "Could not send to webserver.\n";
@@ -79,20 +86,18 @@ std::string Comm::communicate(std::string content){
 
   }
   close(webSocket);
-  std::string contentType =  m.find("Content-Type")->second;
-  if(contentType.size()>0){
-  	std::cerr <<contentType.c_str()<<std::endl;
+  std::map<std::string,std::string> mWeb = parseHttp(content);
+
+  std::string contentType =  mWeb.find("Content-Type")->second;
+  if(contentType == "text/html"){
+    std::cerr <<"-----------Found text type----------\n";
+    cens = censorContent(content);
+    if(cens){
+      std::cerr <<"-----------BLOCK----------\n";
+      return errorUrl2;
+    }
   }
-  if(contentType.c_str() == "text/html"){
-  	std::cerr <<"-----------Found text type----------\n";
-  	std::cerr <<content.c_str()<<std::endl;
-	cens = censorContent(content);
-	if(cens){
-		std::cerr <<"-----------BLOCK----------\n";
-	  	return errorUrl2;
-	}
-  }
-  
+
   return content;
 }
 
