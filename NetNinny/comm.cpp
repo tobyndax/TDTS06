@@ -14,7 +14,7 @@ std::string Comm::communicate(std::string content){
   }
 
   std::map<std::string,std::string> m = parseHttp(content);
-  std::string testa = censor(content,m);
+  bool cens = censorURL(content,m);
   std::map<std::string,std::string>::iterator it;
 
   if(m.find("Host")==m.end()){

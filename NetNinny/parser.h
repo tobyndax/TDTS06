@@ -7,5 +7,4 @@
 
 
 std::map<std::string,std::string> parseHttp(std::string s);
-std::string censor(std::string content, std::map<std::string, std::string> m);
-
+bool censorURL(std::string content, std::map<std::string, std::string> m);
