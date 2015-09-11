@@ -1,7 +1,7 @@
 #include "parser.h"
 
 std::list<std::string> keywords = {"norrk\x94ping","norrkoping",
-	"spongebob","britney","spears", "paris", "hilton"};
+	"spongebob","britney","spears", "paris", "hilton","ipad", "kunskap"};
   
 std::map<std::string,std::string> parseHttp(std::string s){
   std::map<std::string, std::string> m;
