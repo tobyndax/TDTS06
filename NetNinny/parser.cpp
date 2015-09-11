@@ -6,6 +6,7 @@ std::list<std::string> keywords = {"norrk\x94ping","norrkoping",
 std::map<std::string,std::string> parseHttp(std::string s){
   std::map<std::string, std::string> m;
 
+  //std::transform(s.begin(), s.end(), s.begin(), ::tolower);
   std::istringstream resp(s);
   std::string header;
   std::string::size_type index;

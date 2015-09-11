@@ -1,6 +1,7 @@
 #include "comm.h"
 
 std::string errorUrl1 = "HTTP/1.1 301 Moved Permanently\r\nLocation: http://www.ida.liu.se/~TDTS04/labs/2011/ass2/error1.html\r\nConnection: Close\r\n\r\n";
+std::string errorUrl2 = "HTTP/1.1 301 Moved Permanently\r\nLocation: http://www.ida.liu.se/~TDTS04/labs/2011/ass2/error2.html\r\nConnection: Close\r\n\r\n";
 
 
 
@@ -14,24 +15,23 @@ std::string Comm::communicate(std::string content){
   int webSocket = socket(AF_INET, SOCK_STREAM, 0);
   if(webSocket == -1){
     std::cerr << "Could not create socket to web.\n";
+    close(webSocket);
     return "";
   }
 
   std::map<std::string,std::string> m = parseHttp(content);
   bool cens = censorURL(m);
   if(cens){
-  	//return errorUrl1;
-  }
-  cens = censorContent(content);
-  if(cens){
-  	std::cerr<<"-------BLOCK---------\n";
+  	close(webSocket);
   	return errorUrl1;
   }
+  
   std::map<std::string,std::string>::iterator it;
 
   if(m.find("Host")==m.end()){
   	std::cerr << "Host not found in map! " << content.size() <<std::endl;
   	//std::cerr << content << std::endl;
+  	close(webSocket);
   	return "";
   }
 
@@ -43,6 +43,7 @@ std::string Comm::communicate(std::string content){
     std::cerr << "Host not found!\n";
     //std::string out = "Proxy could not find address. :S";
     //send(browser_socket, out.c_str(), out.size(), 0);
+    close(webSocket);
     return "";
   }
 
@@ -55,6 +56,7 @@ std::string Comm::communicate(std::string content){
 
   if(connect(webSocket, (const sockaddr*)&webserver, sizeof(webserver)) < 0){
     std::cerr << "Could not connect to webserver.\n";
+    close(webSocket);
     return "";
   }
   int n;
@@ -76,8 +78,21 @@ std::string Comm::communicate(std::string content){
     content.append( std::string(buffer, n) );
 
   }
-
   close(webSocket);
+  std::string contentType =  m.find("Content-Type")->second;
+  if(contentType.size()>0){
+  	std::cerr <<contentType.c_str()<<std::endl;
+  }
+  if(contentType.c_str() == "text/html"){
+  	std::cerr <<"-----------Found text type----------\n";
+  	std::cerr <<content.c_str()<<std::endl;
+	cens = censorContent(content);
+	if(cens){
+		std::cerr <<"-----------BLOCK----------\n";
+	  	return errorUrl2;
+	}
+  }
+  
   return content;
 }
 
