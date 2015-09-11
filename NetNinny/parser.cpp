@@ -1,8 +1,10 @@
 #include "parser.h"
 
+
+
 std::vector<std::string> keywords = {"norrk\x94ping","norrkoping",
 	"spongebob","britney","spears", "paris", "hilton"};
-std::string errorUrl1 ="";
+  
 std::map<std::string,std::string> parseHttp(std::string s){
   std::map<std::string, std::string> m;
 
@@ -28,14 +30,14 @@ std::map<std::string,std::string> parseHttp(std::string s){
   return m;
 }
 
-std::string censor(std::string content, std::map<std::string, std::string> m){
+bool censorURL(std::string content, std::map<std::string, std::string> m){
 	std::string url = m.find("URL")->second;
 	for(size_t i =0; i<=keywords.size();i++){
 		std::transform(url.begin(), url.end(), url.begin(), ::tolower);
 		std::size_t found = url.find(keywords.at(i));
   		if (found!=std::string::npos){
-  			return errorUrl1;
+  			return true;
   		}
 	}
-	return "";
+	return false;
 }
