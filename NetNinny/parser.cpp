@@ -1,7 +1,50 @@
 #include "parser.h"
 
+/*
+* Debugging function
+*/
+
+
+
+
 std::list<std::string> keywords = {"norrk\x94ping","norrkoping",
-"spongebob","britney","spears", "paris", "hilton"};
+"spongebob","britney","spears", "paris", "hilton","ipad", "kunskap"};
+void printString(std::string s){
+
+  for(char& c : s) {
+    printchar((unsigned char)c);
+  }
+}
+
+//
+// Thanks to http://stackoverflow.com/questions/1079748/how-to-print-n-instead-of-a-newline
+//
+
+void printchar(unsigned char theChar){
+
+  switch (theChar) {
+
+    case '\n':
+    printf("\\n\n");
+    break;
+    case '\r':
+    printf("\\r");
+    break;
+    case '\t':
+    printf("\\t");
+    break;
+    default:
+    if ((theChar < 0x20) || (theChar > 0x7f)) {
+      printf("\\%03o", (unsigned char)theChar);
+    } else {
+      printf("%c", theChar);
+    }
+    break;
+  }
+}
+
+
+
 
 std::map<std::string,std::string> parseHttp(std::string s){
   std::map<std::string, std::string> m;
@@ -45,7 +88,6 @@ bool censorContent(std::string content){
   for (std::list<std::string>::iterator it=keywords.begin(); it != keywords.end(); ++it){
     std::size_t found = content.find(*it);
     if (found!=std::string::npos){
-      std::cerr <<"------Censor-----"+*it+"----------\n";
       return true;
     }
   }
