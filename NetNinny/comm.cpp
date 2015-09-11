@@ -29,14 +29,13 @@ std::string Comm::communicate(std::string content){
   std::map<std::string,std::string>::iterator it;
 
   if(m.find("Host")==m.end()){
-    std::cerr << "Host not found in map! " << content.size() <<std::endl;
+    //std::cerr << "Host not found in map! " << content.size() <<std::endl;
     //std::cerr << content << std::endl;
     close(webSocket);
     return "";
   }
 
   std::string address =  m.find("Host")->second;
-
   hostent* host = gethostbyname(address.c_str());
   if(!host)
   {
@@ -59,7 +58,7 @@ std::string Comm::communicate(std::string content){
     close(webSocket);
     return "";
   }
-  
+
   content = removeEnc(content);
 
   int n;
@@ -72,6 +71,11 @@ std::string Comm::communicate(std::string content){
   int buffersize = 4000;
   char buffer[buffersize];
 
+  //Hur ser sista datan ut?. (alltså /r/n /r/n + content)
+  //när slutar vi läsa?
+  // Plan: Plocka ut content length, trigga på \r\n\r\n och läs sedan c
+  //content length till bytes. 
+
   while(canRead(webSocket, 500))
   {
     n = recv(webSocket, buffer, buffersize, 0);
@@ -81,12 +85,18 @@ std::string Comm::communicate(std::string content){
     content.append( std::string(buffer, n) );
 
   }
+
+  printString(content);
+
+
   close(webSocket);
-  std::map<std::string,std::string> mWeb = parseHttp(content);
+  std::map<std::string,std::string> mWeb = parseHttp2(content);
 
   std::string contentType =  mWeb.find("Content-Type")->second;
+  //std::cout << std::endl;
+
   if(contentType == "text/html"){
-    std::cerr <<"-----------Found text type----------\n";
+    //std::cerr <<"-----------Found text type----------\n";
     cens = censorContent(content);
     if(cens){
       std::cerr <<"-----------BLOCK----------\n";

@@ -14,6 +14,7 @@ void printString(std::string s){
   for(char& c : s) {
     printchar((unsigned char)c);
   }
+  std::cout << std::endl;
 }
 
 //
@@ -69,6 +70,38 @@ std::map<std::string,std::string> parseHttp(std::string s){
       ));
     }
   }
+  return m;
+}
+
+std::map<std::string,std::string> parseHttp2(std::string s){
+  std::map<std::string, std::string> m;
+
+  //std::transform(s.begin(), s.end(), s.begin(), ::tolower);
+  std::istringstream resp(s);
+  std::string header;
+  std::string::size_type index;
+  bool firstLine = true;
+  while (std::getline(resp, header) && header != "\r") {
+    if(firstLine){
+      m.insert(std::make_pair("URL",header.substr(4,header.length())));
+      firstLine = false;
+      //std::cerr << m.find("URL")->second << std::endl;
+      continue;
+    }
+    index = header.find(':', 0);
+    if(index != std::string::npos) {
+      m.insert(std::make_pair(
+        boost::algorithm::trim_copy(header.substr(0, index)),
+        boost::algorithm::trim_copy(header.substr(index + 1))
+      ));
+    }
+  }
+
+  for (const auto &p : m) {
+      printString(p.first);
+      //std::cout << "m[" << p.first << "] = " << p.second << '\n';
+  }
+
   return m;
 }
 

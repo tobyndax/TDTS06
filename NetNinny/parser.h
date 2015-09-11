@@ -13,3 +13,4 @@ bool censorContent(std::string content);
 std::string removeEnc(std::string content);
 void printchar(unsigned char theChar);
 void printString(std::string s);
+std::map<std::string,std::string> parseHttp2(std::string s);

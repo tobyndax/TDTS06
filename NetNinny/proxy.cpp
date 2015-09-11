@@ -97,13 +97,17 @@ std::string Proxy::sniff(){
 	int n = 0, buffersize = 4000;
 	char buffer[buffersize];
 	std::string content = "";
-	while(canRead(this->browserSocket, 200)){
+	while(true){
 
 		n = recv(this->browserSocket, buffer, buffersize, 0);
 		if(n <= 0)
-		break;
+			break;
 		content.append(std::string(buffer, n));
-
+		std::size_t found = content.find("\r\n\r\n");
+    if (found!=std::string::npos){
+			std::cout << "broke" << std::endl;
+      break;
+    }
 	}
 	if(content.size() == 0)
 	printf("content size is zero \n");
