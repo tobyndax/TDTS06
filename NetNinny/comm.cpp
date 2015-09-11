@@ -51,9 +51,8 @@ std::string Comm::communicate(std::string content){
 
   content = "";
 
-  int buffersize = 4000000;
+  int buffersize = 4000;
   char buffer[buffersize];
-  int empty = 0;
 
   while(canRead(webSocket, 500))
   {

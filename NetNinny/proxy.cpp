@@ -96,9 +96,8 @@ std::string Proxy::sniff(){
 	//std::cout << "New child created" << std::endl;
 	int n = 0, buffersize = 4000;
 	char buffer[buffersize];
-	int empty = 0;
 	std::string content = "";
-	while(canRead(this->browserSocket, 500)){
+	while(canRead(this->browserSocket, 200)){
 
 		n = recv(this->browserSocket, buffer, buffersize, 0);
 		if(n <= 0)

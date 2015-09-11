@@ -12,7 +12,8 @@ std::map<std::string,std::string> parseHttp(std::string s){
   	if(firstLine){
   		m.insert(std::make_pair("URL",header.substr(4,header.length())));
   		firstLine = false;
-  		std::cerr << m.find("URL")->second << std::endl;
+  		//std::cerr << m.find("URL")->second << std::endl;
+      continue;
   	}
     index = header.find(':', 0);
     if(index != std::string::npos) {
