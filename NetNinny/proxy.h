@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
@@ -15,19 +16,22 @@
 #include <string>
 #include <cctype>
 #include "comm.h"
+#include <signal.h>
 
 class Proxy
 {
 public:
-    Proxy(int,int);
-    int getPort();
-    std::string sniff();
+  Proxy(int,int);
+  int getPort();
+  std::string sniff();
 
 protected:
-    void connectBrowser();
-    int proxyPort;
-    int allowedConns;
-    bool canRead(int,unsigned int);
-    int serverSocket;
-    int browserSocket;
+  void task_1();
+  void connectBrowser();
+  int proxyPort;
+  int allowedConns;
+  bool canRead(int,unsigned int);
+  int serverSocket;
+  int browserSocket;
+  Comm* comm;
 };
