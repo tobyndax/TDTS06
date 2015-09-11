@@ -61,10 +61,12 @@ std::string Comm::communicate(std::string content){
   }
 
 
-  std::cerr << content << std::endl;
+  printString(content);
 
   content = removeEnc(content);
-  std::cerr << content << std::endl;
+
+  printString(content);
+
 
   int n;
   if((n = send(webSocket, content.c_str(), content.size(), 0)) < 0){

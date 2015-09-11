@@ -1,7 +1,46 @@
 #include "parser.h"
 
+/*
+* Debugging function
+*/
+
+
+
+
 std::list<std::string> keywords = {"norrk\x94ping","norrkoping",
 "spongebob","britney","spears", "paris", "hilton","ipad", "kunskap"};
+void printString(std::string s){
+
+  for(char& c : s) {
+    printchar((unsigned char)c);
+  }
+}
+
+void printchar(unsigned char theChar){
+
+  switch (theChar) {
+
+    case '\n':
+    printf("\\n\n");
+    break;
+    case '\r':
+    printf("\\r");
+    break;
+    case '\t':
+    printf("\\t");
+    break;
+    default:
+    if ((theChar < 0x20) || (theChar > 0x7f)) {
+      printf("\\%03o", (unsigned char)theChar);
+    } else {
+      printf("%c", theChar);
+    }
+    break;
+  }
+}
+
+
+
 
 std::map<std::string,std::string> parseHttp(std::string s){
   std::map<std::string, std::string> m;
@@ -60,15 +99,15 @@ std::string removeEnc(std::string content){
   while (std::getline(resp, line)  && line != "\r") {
     index = line.find("Accept-Encoding:",0);
     if(index != std::string::npos){
-      std::cerr << "FOUND ENC___________________________:!"<<std::endl;
+      //std::cerr << "FOUND ENC___________________________:!"<<std::endl;
       //newContent.append("Accept-Encoding: \r\n");
       continue;
     }else if(line == "\r"){
-    	newContent.append(line);
-    	continue;
+      newContent.append(line);
+      continue;
     }
     else{
-      newContent.append(line+"\r\n");
+      newContent.append(line+"\n");
     }
   }
   return newContent;
