@@ -28,14 +28,14 @@ std::string Comm::communicate(std::string content){
 
   std::map<std::string,std::string>::iterator it;
 
-  if(m.find("Host")==m.end()){
+  if(m.find("host")==m.end()){
     //std::cerr << "Host not found in map! " << content.size() <<std::endl;
     //std::cerr << content << std::endl;
     close(webSocket);
     return "";
   }
 
-  std::string address =  m.find("Host")->second;
+  std::string address =  m.find("host")->second;
   hostent* host = gethostbyname(address.c_str());
   if(!host)
   {
@@ -74,25 +74,43 @@ std::string Comm::communicate(std::string content){
   //Hur ser sista datan ut?. (alltså /r/n /r/n + content)
   //när slutar vi läsa?
   // Plan: Plocka ut content length, trigga på \r\n\r\n och läs sedan c
-  //content length till bytes. 
-
-  while(canRead(webSocket, 500))
-  {
+  //content length till bytes.
+  bool count = false;
+  bool recieving = true;
+  int dataRec = 0;
+  int contentLen = 0;
+  while(canRead(webSocket,1000)){
     n = recv(webSocket, buffer, buffersize, 0);
-    if(n <= 0)
-    break;
 
-    content.append( std::string(buffer, n) );
+    content.append(std::string(buffer, n));
+    std::size_t found = content.find("\r\n\r\n");
 
+    //End sequence found, however in this case there might be more data
+    // after the sequence which we need to count.
+    // so extract position of end seq. and see if we have more data there.
+    // since we now have the header resp we can extract the content length.
+    if (found!=std::string::npos && !count){
+      count = true;
+      std::map<std::string,std::string> mWeb = parseHttp2(content);
+      contentLen = atoi(mWeb.find("Content-Length")->second.c_str());
+      int rem = content.size() - found - 4;
+      dataRec += rem;
+      //extract content length here. If it doesn't exist end read here.
+      continue;
+    }
+    if(count){
+      dataRec += n;
+      //printf("%i of %i \n", dataRec, contentLen);
+      if (dataRec == contentLen)
+        break;
+    }
   }
-
-  printString(content);
 
 
   close(webSocket);
-  std::map<std::string,std::string> mWeb = parseHttp2(content);
+  std::map<std::string,std::string> mWeb = parseHttp(content);
 
-  std::string contentType =  mWeb.find("Content-Type")->second;
+  std::string contentType =  mWeb.find("content-type")->second;
   if (contentType.find("text") != std::string::npos) {
     std::cerr <<"-----------"+contentType+"----------\n";
     cens = censorContent(content);

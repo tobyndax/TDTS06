@@ -105,7 +105,6 @@ std::string Proxy::sniff(){
 		content.append(std::string(buffer, n));
 		std::size_t found = content.find("\r\n\r\n");
     if (found!=std::string::npos){
-			std::cout << "broke" << std::endl;
       break;
     }
 	}

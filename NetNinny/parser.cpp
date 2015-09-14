@@ -62,10 +62,13 @@ std::map<std::string,std::string> parseHttp(std::string s){
       //std::cerr << m.find("URL")->second << std::endl;
       continue;
     }
+
     index = header.find(':', 0);
     if(index != std::string::npos) {
+      std::string temp1 = boost::algorithm::trim_copy(header.substr(0, index));
+      boost::algorithm::to_lower(temp1);
       m.insert(std::make_pair(
-        boost::algorithm::trim_copy(header.substr(0, index)),
+        temp1,
         boost::algorithm::trim_copy(header.substr(index + 1))
       ));
     }
@@ -88,18 +91,20 @@ std::map<std::string,std::string> parseHttp2(std::string s){
       //std::cerr << m.find("URL")->second << std::endl;
       continue;
     }
+
     index = header.find(':', 0);
     if(index != std::string::npos) {
+      std::string temp1 = boost::algorithm::trim_copy(header.substr(0, index));
+      //boost::algorithm::to_lower(temp1);
       m.insert(std::make_pair(
-        boost::algorithm::trim_copy(header.substr(0, index)),
+        temp1,
         boost::algorithm::trim_copy(header.substr(index + 1))
       ));
     }
   }
 
   for (const auto &p : m) {
-      printString(p.first);
-      //std::cout << "m[" << p.first << "] = " << p.second << '\n';
+    std::cout << "m[" << p.first << "] = " << p.second << '\n';
   }
 
   return m;
@@ -138,8 +143,8 @@ std::string removeEnc(std::string content){
     if(index != std::string::npos){
       continue;
     }else if(line == "\r"){
-    	newContent.append(line+"\n");
-    	continue;
+      newContent.append(line+"\n");
+      continue;
     }
     else{
       newContent.append(line+"\n");
