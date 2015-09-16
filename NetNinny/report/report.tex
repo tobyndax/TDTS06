@@ -1,0 +1,80 @@
+\documentclass[10pt]{article}
+
+\usepackage{times}
+\usepackage{mathptmx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+
+\setlength\parindent{0pt}
+
+
+\raggedbottom
+\sloppy
+
+\title{NetNinny\\
+\emph{TDTS06}}
+
+\author{David Habrman \\ davha227, 920908-2412\\
+Jens Edhammer \\ jened502, 920128-5112 }
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction}
+This is a lab report in computer networks (TDTS06). The assignment was
+to create a Web proxy using c++. The report will describe how to compile,
+configure and use our Web proxy. It will also describe testing of the proxy,
+limitations and finally a discussion about how the proxy handles different
+types of websites.
+
+\section{Manual}
+The code is compiled using the makefile in appendix A. This makefile works on
+ubuntu and OSX. Open the terminal, navigate to the folder containing code and
+makefile, type "make", run the proxy with "./NetNinny xxxx". Replace "xxxx"
+with the wanted the wanted socket number e.g. "5005" (required feature 7).
+We prefered to use firefox to quickly test the proxy since it's easy to
+modify the settings to use the proxy. Open firefox, open preferences, go to
+the advanced tab,Network, Connection settings, check
+"Manual proxy configuration", enter "local host" in the field "HTTP Proxy",
+enter your socket number "xxxx" in the field "Port" and finally click "OK".
+
+The code consists of three classes, proxy, comm and parser. The proxy class
+handles the communication between the Web browser and the proxy. The proxy class
+establishes a connection between browser and proxy, then it waits for a request
+from the browser, this is then passed on to the comm class. The comm class
+uses the parser class to check if the request contains a undesirable URL
+(required feature 3). The comm class procedes to send the request if the
+request passes the check and returns the specified error URL
+("http://www.ida.liu.se/~TDTS04/labs/2011/ass2/error1.html") if it fails.
+It is the comm class that receives the messages from the server and before
+it passes the message on to the proxy class it checks the message for any
+text content (required feature 8). If the message contains any text then the
+text content is passed through a check in the parser class to check for
+inappropriate bytes (required feature 4). The message is passed on to the
+proxy class if the content passes the check and the second specified error URL
+("http://www.ida.liu.se/~TDTS04/labs/2011/ass2/error2.html") is returned if it
+fails. All this together handles simple HTTP GET interactions between client
+and server (required feature 2).
+
+The message from the browser to the proxy ends with
+"\textbackslash r\textbackslash n". We use this to read from the socket until
+we find this string. The incoming message from the server is instead handled by
+using "close connection" instead of "keep alive". This gives no limit on the
+size of transferred HTTP data (requiered feature 5).
+
+\section{Testing}
+
+\section{Limitations}
+
+\section{Discussion}
+
+\end{document}
