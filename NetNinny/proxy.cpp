@@ -1,5 +1,7 @@
 #include "proxy.h"
 
+//function for reaping zombie processes
+
 void sigchld_handler(int s)
 {
 	// waitpid() might overwrite errno, so we save and restore it:
@@ -11,6 +13,7 @@ void sigchld_handler(int s)
 }
 
 
+//construct the proxy with the specified port.
 Proxy::Proxy(int proxyPort,int allowedConns){
 	this->proxyPort = proxyPort;
 	this->allowedConns = allowedConns;
@@ -18,6 +21,19 @@ Proxy::Proxy(int proxyPort,int allowedConns){
 	connectBrowser();
 }
 
+
+/*
+*	create Socket
+* bind socket
+* listen to socket
+* reap zombie processes
+* accept connection
+* fork out communcation upon accept.
+*	recieve browser data in sniff()
+* send data to Comm class with communicate(string)
+* send response from communicate back to browser
+*
+*/
 void Proxy::connectBrowser(){
 
 	struct sigaction sa;
@@ -80,39 +96,27 @@ int Proxy::getPort(){
 	return this->proxyPort;
 }
 
-bool Proxy::canRead(int socket, unsigned int timeout)
-{
-	timeval time;
-	fd_set fd;
-	FD_ZERO(&fd);
-	FD_SET(socket, &fd);
-	time.tv_sec = timeout / 1000;
-	time.tv_usec = (timeout % 1000) * 1000;
-	return ( select(socket+1, &fd, NULL, NULL, &time) > 0 );
-}
+/*
+* construct buffer,
+* recieve data until the end sequence is found.
+*/
 
 std::string Proxy::sniff(){
 
-	//std::cout << "New child created" << std::endl;
 	int n = 0, buffersize = 4000;
 	char buffer[buffersize];
 	std::string content = "";
-	while(true){
 
+	while(true){
 		n = recv(this->browserSocket, buffer, buffersize, 0);
 		if(n <= 0)
 			break;
 		content.append(std::string(buffer, n));
 		std::size_t found = content.find("\r\n\r\n");
     if (found!=std::string::npos){
-			std::cout << "broke" << std::endl;
-      break;
+			break;
     }
 	}
-	if(content.size() == 0)
-	printf("content size is zero \n");
-	//std::cout << content << std::endl;
-	//std::string out = "HTTP/1.1 301 Moved Permanently\r\nLocation: http://www.ida.liu.se/~TDTS04/labs/2011/ass2/error2.html\r\nConnection: Close\r\n\r\n";
-	//send(this->browserSocket, out.c_str(), out.size(), 0);
+
 	return content;
 }

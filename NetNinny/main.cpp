@@ -22,7 +22,7 @@ int validate(int,char* argv[]);
 
 int main(int argc, char* argv[]){
   int proxyPort = validate(argc,argv);
-  Proxy* proxy = new Proxy(proxyPort,100);
+  Proxy* proxy = new Proxy(proxyPort,250);
 
   return 0;
 }

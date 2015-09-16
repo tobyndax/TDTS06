@@ -7,10 +7,12 @@
 #include <boost/algorithm/string.hpp>
 
 
-std::map<std::string,std::string> parseHttp(std::string s);
-bool censorURL(std::map<std::string, std::string> m);
+struct comp;
+
+std::map<std::string,std::string,comp> parseHttp(std::string s);
+bool censorURL(std::map<std::string, std::string, comp> m);
 bool censorContent(std::string content);
 std::string removeEnc(std::string content);
 void printchar(unsigned char theChar);
 void printString(std::string s);
-std::map<std::string,std::string> parseHttp2(std::string s);
+std::string modifyConn(std::string content);

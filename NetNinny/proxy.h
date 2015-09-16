@@ -31,7 +31,6 @@ protected:
   void connectBrowser();
   int proxyPort;
   int allowedConns;
-  bool canRead(int,unsigned int);
   int serverSocket;
   int browserSocket;
   Comm* comm;

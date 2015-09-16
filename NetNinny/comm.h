@@ -31,5 +31,4 @@ public:
 protected:
     int port = 80;
     int allowedConns;
-    bool canRead(int,unsigned int);
 };
