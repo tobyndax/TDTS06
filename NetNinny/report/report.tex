@@ -47,14 +47,17 @@ the advanced tab,Network, Connection settings, check
 "Manual proxy configuration", enter "local host" in the field "HTTP Proxy",
 enter your socket number "xxxx" in the field "Port" and finally click "OK".
 
-The code consists of three classes, proxy, comm and parser. The proxy class
-handles the communication between the Web browser and the proxy. The proxy class
-establishes a connection between browser and proxy, then it waits for a request
-from the browser, this is then passed on to the comm class. The comm class
-uses the parser class to check if the request contains a undesirable URL
-(required feature 3). The comm class procedes to send the request if the
-request passes the check and returns the specified error URL
-("http://www.ida.liu.se/~TDTS04/labs/2011/ass2/error1.html") if it fails.
+The code consists of three classes (see code in appendix B), proxy, comm and
+parser. The proxy class handles the communication between the Web browser and
+the proxy. The proxy class establishes a connection between browser and proxy,
+then it waits for a request from the browser, this is then passed on to the comm
+class. The comm class uses the parser class to check if the request contains a
+undesirable URL (required feature 3). The comm class then uses the parser class
+to modifying the request to accept no encoding and then send the request only if
+the request passes the check, if not then it returns the specified error URL
+("http://www.ida.liu.se/~TDTS04/labs/2011/ass2/error1.html"). The reason
+for modifying the request to accept no encoding is for us to later be able to
+scan content for inappropriate bytes.
 It is the comm class that receives the messages from the server and before
 it passes the message on to the proxy class it checks the message for any
 text content (required feature 8). If the message contains any text then the
@@ -85,6 +88,9 @@ different websites, among them we primarily used "www.XXXXXXXXXXX.se"
 Our proxy works for all cases and all websites.
 
 \section{Limitations}
+Our proxy can handle HTTP GET interactions between client and server,
+block requests for undesirable URLs and redirect them to an error URL,
+detect inappropriate bytes in text content
 
 \section{Discussion}
 
