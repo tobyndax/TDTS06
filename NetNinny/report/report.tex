@@ -76,7 +76,7 @@ using "close connection" instead of "keep alive". This gives no limit on the
 size of transferred HTTP data (requiered feature 5).
 
 Our proxy blocks URLs and text content containing "norrk\"oping", "norrkoping",
-"spongebob", "britney", "spears" and "hilton". We transform all content and
+"spongebob", "britney", "spears", "paris" and "hilton". We transform all content and
 URLs to lower case letters which makes our proxy block insensitive to different
 case letters.
 
@@ -84,10 +84,9 @@ case letters.
 We could categorize all websites into three different folders since the
 proxy should handle three different cases, fully load a website,
 block undesirable URLs, and block inappropriate content. We tested with some
-different websites, among them we primarily used "www.XXXXXXXXXXX.se"
-(it was blocked due to inappropriate content since it contained xxxxxxxx),
-"www.YYYYYYYYYYYYY.se" (it was blocked due to inappropriate content since it
-contained yyyyyyy) and "www.ZZZZZZZZZZZZZZ.se" (it was passed through since
+different websites, among them we primarily used "www.aftonbladet.se"
+(it was blocked due to inappropriate text content),
+"britney.com" (it was blocked due to inappropriate URL) and "www.test.se" (it was passed through since
 it was an appropriate website). Our proxy works for all cases and all websites.
 
 We also tested streaming videos from "www.twitch.tv" which worked well.
