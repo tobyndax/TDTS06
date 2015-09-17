@@ -12,7 +12,6 @@ void sigchld_handler(int s)
 	errno = saved_errno;
 }
 
-
 //construct the proxy with the specified port.
 Proxy::Proxy(int proxyPort,int allowedConns){
 	this->proxyPort = proxyPort;
@@ -20,7 +19,6 @@ Proxy::Proxy(int proxyPort,int allowedConns){
 
 	connectBrowser();
 }
-
 
 /*
 *	create Socket
@@ -34,6 +32,7 @@ Proxy::Proxy(int proxyPort,int allowedConns){
 * send response from communicate back to browser
 *
 */
+
 void Proxy::connectBrowser(){
 
 	struct sigaction sa;
