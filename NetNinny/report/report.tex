@@ -42,7 +42,7 @@ The code is compiled using the makefile in appendix A. This makefile works on
 ubuntu and OSX. Open the terminal, navigate to the folder containing code and
 makefile, type "make", run the proxy with "./NetNinny xxxx". Replace "xxxx"
 with the wanted the wanted socket number e.g. "5005" (required feature 7).
-We prefered to use firefox to quickly test the proxy since it's easy to
+We preferred to use firefox to quickly test the proxy since it's easy to
 modify the settings to use the proxy. Open firefox, open preferences, go to
 the advanced tab, Network, Connection settings, check
 "Manual proxy configuration", enter "local host" in the field "HTTP Proxy",
@@ -73,9 +73,9 @@ The message from the browser to the proxy ends with
 "\textbackslash r\textbackslash n". We use this to read from the socket until
 we find this string. The incoming message from the server is instead handled by
 using "close connection" instead of "keep alive". This gives no limit on the
-size of transferred HTTP data (requiered feature 5).
+size of transferred HTTP data (required feature 5).
 
-Our proxy blocks URLs and text content containing norrkÃ¶ping", "norrkoping",
+Our proxy blocks URLs and text content containing "norrköping", "norrkoping",
 "spongebob", "britney", "spears" and "hilton". We transform all content and
 URLs to lower case letters which makes our proxy block insensitive to different
 case letters.
