@@ -29,7 +29,8 @@ void printString(std::string s){
 }
 
 //
-// Thanks to http://stackoverflow.com/questions/1079748/how-to-print-n-instead-of-a-newline
+// Thanks to:
+// http://stackoverflow.com/questions/1079748/how-to-print-n-instead-of-a-newline
 //
 
 void printchar(unsigned char theChar){
@@ -55,14 +56,11 @@ void printchar(unsigned char theChar){
   }
 }
 
-
-
-
 /*
 * save the first line as URL
 * extract every colon seperated data into key and content.
-*
 */
+
 std::map<std::string,std::string,comp> parseHttp(std::string s){
   std::map<std::string, std::string,comp> m;
 
@@ -117,7 +115,6 @@ bool censorContent(std::string content){
   }
   return false;
 }
-
 
 /*
 * Remove line about encoding in header to ensure unencoded messages.
