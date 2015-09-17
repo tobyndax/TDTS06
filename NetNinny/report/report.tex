@@ -6,6 +6,7 @@
 \usepackage{mathtools}
 \usepackage{graphicx}
 \usepackage{epstopdf}
+\usepackage[margin=1in]{geometry}
 
 \setlength\parindent{0pt}
 
@@ -84,8 +85,10 @@ We could categorize all web sites into three different folders since the
 proxy should handle three different cases, fully load a website,
 block undesirable URLs, and block inappropriate content. We tested with some
 different websites, among them we primarily used "www.XXXXXXXXXXX.se"
-(it was blocked due to inappropriate content since it contained XXXXXXXXXXX)
-Our proxy works for all cases and all websites.
+(it was blocked due to inappropriate content since it contained xxxxxxxx),
+"www.YYYYYYYYYYYYY.se" (it was blocked due to inappropriate content since it
+contained yyyyyyy) and "www.ZZZZZZZZZZZZZZ.se" (it was passed through since
+it was an appropriate web site). Our proxy works for all cases and all websites.
 
 \section{Limitations}
 Our proxy can handle HTTP GET interactions between client and server,
