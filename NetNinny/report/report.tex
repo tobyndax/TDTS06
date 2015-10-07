@@ -81,7 +81,7 @@ URLs to lower case letters which makes our proxy block insensitive to different
 case letters.
 
 \section{Testing}
-We could categorize all websites into three different folders since the
+We could categorize all websites into three different categories since the
 proxy should handle three different cases, fully load a website,
 block undesirable URLs, and block inappropriate content. We tested with some
 different websites, among them we primarily used "www.aftonbladet.se"
@@ -91,12 +91,23 @@ it was an appropriate website). Our proxy works for all cases and all websites.
 
 We also tested streaming videos from "www.twitch.tv" which worked well.
 
-\section{Limitations}
+\section{Features and Limitations}
 Our proxy can handle HTTP GET interactions between client and server,
 block requests for undesirable URLs and redirect them to an error URL,
 modify requests to accept no encoding, detect inappropriate bytes in text
 content and redirect to a second error URL, it allows the user to select the
 proxy port and it has no limits on the size of the transferred HTTP data.
+
+Since different browsers and servers are inconsistent with upper and lower case 
+in the HTTP-headers we implemented some countermeasures against just that. 
+We implemented our own comparator for the map-structure we use to extract and
+ keep track of the different information from the HTTP-header, which was invariant 
+ to upper and lower case letters. 
+ 
+When looking for the Accept-Encoding: *****, to strip that line, we look for both  
+accept-encoding and Accept-Encoding and remove the line if either is found.
+
+
 
 \section{Discussion}
 Our proxy works well on most websites, we can however not handle HTTPS.
