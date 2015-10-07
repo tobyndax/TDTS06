@@ -1,0 +1,112 @@
+\documentclass[10pt]{article}
+
+\usepackage{times}
+\usepackage{mathptmx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage[margin=1in]{geometry}
+
+\setlength\parindent{0pt}
+
+
+\raggedbottom
+\sloppy
+
+\title{TCP\\
+\emph{TDTS06}}
+
+\author{David Habrman \\ davha227, 920908-2412\\
+Jens Edhammer \\ jened502, 920128-5112 }
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\section{Practice}
+\begin{enumerate}
+  \item{What are the first and last packets for the POST request?}
+  \subitem{232129013 is first and 232293053 is last. First is a POST request,
+    last is a reconstructed POST}
+  \item{What is the IP address and the TCP port used by the client
+    computer (source) that is transferring the file to gaia.cs.umass.edu?}
+  \subitem{IP: 192.168.1.102 Port:1161}
+  \item{What is the IP address of gaia.cs.umass.edu? On what port number
+    is it sending and receiving TCP segments for this connections?}
+  \subitem{IP: 128.119.245.12 Port:80}
+  \item{What is the sequence number of the TCP SYN segment that is used
+    to initiate the TCP connection between the client computer and
+    gaia.cs.umass.edu? What is it in the segment that identifies the
+    segment as a SYN segment?}
+  \subitem{232129012, it has a header flag (SYN)}
+  \item{What is the sequence number of the SYNACK segment
+    sent by gaia.cs.umass.edu to the client computer in reply
+    to the SYN? What is the value of the ACKnowledgement field
+    in the SYNACK segment? How did gaia.cs.umass.edu determine
+    that value? What is it in the segment that identifies the segment
+    as a SYNACK segment?}
+  \subitem{SYNACKseqNr: 883061785 ACK:232129013, SYNseqNr+1=ACK. Header flags
+    (SYN and ACK). ACK:s everything up to but not including ACK number}
+  \item{What is the sequence number of the TCP segment
+    containing the HTTP POST command?}
+  \subitem{232129013}
+  \item{Consider the TCP segment containing the HTTP POST as the first segment
+  in the TCP connection. What are the sequence numbers of the first six
+  segments in the TCP connection (including the segment containing the
+  HTTP POST)? At what time was each segment sent? When was the ACK for each
+  segment received? Given the difference between when each TCP segment was
+  sent, and when its acknowledgement was received, what is the RTT value for
+  each of the six segments? What is the EstimatedRTT value (see page 277 in
+  text) after the receipt of each ACK? Assume that the value of the
+  EstimatedRTT is equal to the measured RTT for the first segment, and then
+  is computed using the EstimatedRTT equation on page 277 for all subsequent
+  segments.}
+  \subitem{232129013,232129578,232131038,232132498,232133958,232135418.
+    0.026477, 0.041737, 0.054026, 0.054690, 0.077405, 0.078157.
+    0.053937, 0.077294, 0.124085, 0.169118, 0.217299, 0.267802.
+    0.02746, 0.035557, 0.070059, 0.114428, 0.139894, 0.189645.
+    0.02746, 0.028472, 0.033670, 0.043765, 0.055781, 0.072514.}
+  \item{What is the length of each of the first six TCP segments?}
+  \subitem{first is 565 bytes, all others are 1460 bytes}
+  \item{What is the minimum amount of available buffer space advertised at
+    the receiver for the entire trace? Does the lack of receiver buffer space
+    ever throttle the sender?}
+  \subitem{5840 form the SYNACK. It does not throttle the sender, we send much
+    smaller packets (1460).}
+  \item{Are there any retransmitted segments in the trace file? What did you
+    check for (in the trace) in order to answer this question?}
+  \subitem{No, we checked for tcp segments with the same sequence number as
+    an earlier packet.}
+  \item{How much data does the receiver typically acknowledge in an ACK?
+    Can you identify cases where the receiver is ACKing every other
+    received segment (see Table 3.2 on page 285 in the text).}
+  \subitem{Usually it ACK:s only one segment (1460 bytes) but later on
+    it ACK:s every other segment e.g. packet 105.}
+  \item{What is the throughput (bytes transferred per unit time)
+    for the TCP connection? Explain how you calculated this value.}
+  \subitem{Total data: 150 KB, and the last ACK comes in at 5.651141 including
+    the handshake. This gives a throughput of 150*8/5.651141 = 212.3 KBit/s.}
+\end{enumerate}
+
+
+
+
+\section{Questions}
+\begin{enumerate}
+  \item{What are the first and last packets for the POST request?}
+  \subitem{}
+\end{enumerate}
+
+
+\section{Discussion}
+
+\end{document}
