@@ -97,9 +97,25 @@ Jens Edhammer \\ jened502, 920128-5112 }
     the handshake. This gives a throughput of 150*8/5.651141 = 212.3 KBit/s.}
 \end{enumerate}
 
-
-
-
+\section{Task A}
+\subsection{High Level}
+  At high level a simple (SYN,SYNACK,ACK) handshake is performed. The data is
+  sent in smaller packets (1460 bytes), and every so often (every 6 packets) the
+  data gets the PSH flag which sends the partial data up to the application layer.
+  The last packet in each cycle is a rest packet and migh contain less data than
+  1460 bytes. All the six packets need to be ACK:ed before sending 6 new packets.
+  When all tcp-packets have been ACK:ed the transmission is complete.
+\subsection{Low Level}
+  Initially all packets are ACK:ed indiviually, after a while the connection
+  is deemed stable enough to start ACK:ing multiple in order packets using
+  cumulative ACK's. In other words, the server waits for a longer timeout period
+  for inorder packets and ACK's multiple packets with a single ACK. This is connected to the estimation
+  of the RTT.Packet losses are handled by simply resending the packets. To detect packetlosses
+  TCP uses several small and quite intelligent methods. The ACK sent on a packet
+  ACK's all data that have been recieved in order so far. So we quickly discover
+  if we send packet 12 and packet 10 hasn't been recieved and we can resend it.
+  A lost ACK is solved by cumulative ACK's so a later ACK can ACK all previous packets.
+  
 \section{Questions}
 \begin{enumerate}
   \item{What are the first and last packets for the POST request?}
