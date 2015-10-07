@@ -6,6 +6,7 @@
 \usepackage{mathtools}
 \usepackage{graphicx}
 \usepackage{epstopdf}
+\usepackage{enumitem}
 \usepackage[margin=1in]{geometry}
 
 \setlength\parindent{0pt}
@@ -97,30 +98,85 @@ Jens Edhammer \\ jened502, 920128-5112 }
     the handshake. This gives a throughput of 150*8/5.651141 = 212.3 KBit/s.}
 \end{enumerate}
 
-\section{Task A}
-\subsection{High Level}
-  At high level a simple (SYN,SYNACK,ACK) handshake is performed. The data is
-  sent in smaller packets (1460 bytes), and every so often (every 6 packets) the
-  data gets the PSH flag which sends the partial data up to the application layer.
-  The last packet in each cycle is a rest packet and migh contain less data than
-  1460 bytes. All the six packets need to be ACK:ed before sending 6 new packets.
-  When all tcp-packets have been ACK:ed the transmission is complete.
-\subsection{Low Level}
-  Initially all packets are ACK:ed indiviually, after a while the connection
-  is deemed stable enough to start ACK:ing multiple in order packets using
-  cumulative ACK's. In other words, the server waits for a longer timeout period
-  for inorder packets and ACK's multiple packets with a single ACK. This is connected to the estimation
-  of the RTT.Packet losses are handled by simply resending the packets. To detect packetlosses
-  TCP uses several small and quite intelligent methods. The ACK sent on a packet
-  ACK's all data that have been recieved in order so far. So we quickly discover
-  if we send packet 12 and packet 10 hasn't been recieved and we can resend it.
-  A lost ACK is solved by cumulative ACK's so a later ACK can ACK all previous packets.
-  
-\section{Questions}
+\section{Task A} \subsection{High Level} At high level a simple (SYN,SYNACK,ACK)
+handshake is performed. The data is sent in smaller packets (1460 bytes), and
+every so often (every 6 packets) the data gets the PSH flag which sends the
+partial data up to the application layer. The last packet in each cycle is a
+rest packet and migh contain less data than 1460 bytes. All the six packets need
+to be ACK:ed before sending 6 new packets. When all tcp-packets have been ACK:ed
+the transmission is complete. \subsection{Low Level} Initially all packets are
+ACK:ed indiviually, after a while the connection is deemed stable enough to
+start ACK:ing multiple in order packets using cumulative ACK's. In other words,
+the server waits for a longer timeout period for inorder packets and ACK's
+multiple packets with a single ACK. This is connected to the estimation of the
+RTT.Packet losses are handled by simply resending the packets. To detect
+packetlosses TCP uses several small and quite intelligent methods. The ACK sent
+on a packet ACK's all data that have been recieved in order so far. So we
+quickly discover if we send packet 12 and packet 10 hasn't been recieved and we
+can resend it. A lost ACK is solved by cumulative ACK's so a later ACK can ACK
+all previous packets.
+
+\section{Task B}
 \begin{enumerate}
-  \item{What are the first and last packets for the POST request?}
+  \setcounter{enumi}{12}
+  \item{Use the Time-Sequence-Graph (Stevens) plotting tool to view the sequence
+  number versus time plot of segments being sent from the client to the server
+  (Figure 2a and Figure 2b). For each of the two traces, can you identify where
+  TCP's slow start phase begins and ends, and where congestion avoidance takes
+  over? If you can, explain how. If not, explain why not. To better identify these
+  phases, you may need to find the number of unacknowledged packets (or bytes) at
+  different times and plot the unacknowledged packets (y-axis) as a function of
+  time (x-axis). Note that the number of unacknowledged packets at different times
+  can be found by comparing the number of packets that have been sent with the
+  number of packets that have been acknowledged. After plotting the number of
+  unacknowledged packets versus time, comment on ways in which the measured data
+  differs from the idealized behavior of TCP that we've studied in the text.}
+
+  \subitem{The slowstart phase starts immediately in a (packet 4) and ends after a
+  few packets (packet 13), in b we have some packet loss in the start and it's a
+  bit harder to tell where the slow phase ends, but around packet 12 seems
+  reasonable. In b we also see congestion control. It takes over at packet 65
+  which can be seen by the sequence number divide by time goes linear.}
+
+  \item{Explain the relationship between (i) the congestion window, (ii) the
+  receiver advertised window, (iii) the number of unacknowledged bytes, and (iv)
+  the effective window at the sender.}
+  \subitem{(i) The Congestion window,
+  starts out small and increases as long as there is no packet losses. When a
+  packet loss is detected the window is cut in half. }
+  \subitem{(ii) Advertised
+  Reciever Window, is how big of a buffer the reciever has allocated for the
+  TCP-packets coming in. We can't send packets exceeding this size without
+  acknowledging that they have indeed been recieved (and thus freed from the
+  buffer.)}
+  \subitem{(iii) The number of unacknowledged bytes, is not allowed to break the
+  following equation. $ \textit{\#numUnAckBytes} \leq$ min{cwnd, rwnd}}
+  \subitem{(iv) The effective sender window in total is the same as the allowed
+  unacknowledged bytes. The current available send window must take in account the
+  amount of currently unacknowledged bytes in transit.} \item{Is it generally
+  possible to find the congestion window size (i.e. cwnd) and how it changes with
+  time, from the captured trace files? If so, please explain how. If not, please
+  explain when and when not. Motivate your answer and give examples. Your answer
+  may also benefit from trying to describe and discuss your answer in the context
+  of the two prior questions, for example.}
+  \subitem{You can see the congestion
+  window if you load the link so heavily that the congestion window starts to take
+  effect.}
+\end{enumerate}
+
+\section{Task C}
+\begin{enumerate}
+  \setcounter{enumi}{15}
+  \item{}
+  \subitem{}
+  \item{}
+  \subitem{}
+  \item{}
   \subitem{}
 \end{enumerate}
+
+
+
 
 
 \section{Discussion}

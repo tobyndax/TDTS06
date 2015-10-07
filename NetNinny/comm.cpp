@@ -6,9 +6,9 @@ std::string errorUrl2 = "HTTP/1.1 301 Moved Permanently\r\nLocation: http://www.
 
 
 struct comp {
-    bool operator() (const std::string& lhs, const std::string& rhs) const {
-        return strcasecmp(lhs.c_str(), rhs.c_str()) < 0;
-    }
+  bool operator() (const std::string& lhs, const std::string& rhs) const {
+    return strcasecmp(lhs.c_str(), rhs.c_str()) < 0;
+  }
 };
 
 
@@ -97,10 +97,14 @@ std::string Comm::communicate(std::string content){
   close(webSocket);
   std::map<std::string,std::string,comp> mWeb = parseHttp(content);
 
+  printString(content);
   std::string contentType =  mWeb.find("Content-Type")->second;
-  if (contentType.find("text") != std::string::npos) {
+  if(contentType == "text/html"){
+
     cens = censorContent(content);
+    std::cerr << cens ;
     if(cens){
+      std::cerr <<"-----------BLOCK----------\n";
       return errorUrl2;
     }
   }

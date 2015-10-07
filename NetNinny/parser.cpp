@@ -3,7 +3,7 @@
 
 //The list of keywords to be blocked.
 std::list<std::string> keywords = {"norrk\x94ping","norrkoping",
-"spongebob","britney","spears","hilton","paris","telia"};
+"spongebob","britney","spears","hilton","eller"};
 
 /*
 * Custom comparator to map to handle lower/upper-case discrepancies.
@@ -109,6 +109,7 @@ bool censorContent(std::string content){
   std::transform(content.begin(), content.end(), content.begin(), ::tolower);
   for (std::list<std::string>::iterator it=keywords.begin(); it != keywords.end(); ++it){
     std::size_t found = content.find(*it);
+
     if (found!=std::string::npos){
       return true;
     }
@@ -124,11 +125,11 @@ std::string removeEnc(std::string content){
   std::istringstream resp(content);
   std::string newContent;
   std::string line;
-  std::string::size_type index, index2;
+  std::string::size_type index;
   while (std::getline(resp, line)) {
+    boost::algorithm::to_lower(line);
     index = line.find("accept-encoding:",0);
-    index2 = line.find("Accept-Encoding",0);
-    if(index != std::string::npos || index2 != std::string::npos){
+    if(index != std::string::npos){
       continue;
     }else if(line == "\r"){
     	newContent.append(line+"\n");
