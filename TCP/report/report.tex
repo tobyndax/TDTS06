@@ -132,18 +132,29 @@ all previous packets.
   unacknowledged packets versus time, comment on ways in which the measured data
   differs from the idealized behavior of TCP that we've studied in the text.}
 
-  \subitem{The slowstart phase starts immediately in a (packet 4) and ends after a
-  few packets (packet 13), in b we have some packet loss in the start and it's a
-  bit harder to tell where the slow phase ends, but around packet 12 seems
-  reasonable. In b we also see congestion control. It takes over at packet 65
-  which can be seen by the sequence number divide by time goes linear.}
+  \subitem{The slowstart phase starts immediately in a (packet 4) and ends after
+  a few packets (packet 13), in b we have some packet loss in the start and it's
+  a bit harder to tell where the slow phase ends, but around packet 12 seems
+  reasonable. The important feature here is an exponential increase in the
+  curve. \newline{} One possibility for the apperance graph is the following:
+  \newline{} Initially the sender uses a 'small' sender window, when enough
+  packets been sent to fill the sender window the last package is flagged with
+  PSH and we will wait until all current packets have been ACK:ed. (Explains the
+  gaps without sends). The sender window increases throughout the transmission
+  (explains the longer tails on each linear line.) Initially a few packets are
+  all sent at about the same time (vertical line), we then hit the advertised
+  reciever window maximum, which means we now have to wait for ACK's before
+  sending new packets (the linear line). Since the vertical line does not
+  increase in length (number of packets)  we can be certain that the limit of it
+  is the reciever window and not the congestion window, since the congestion
+  window increases whenever there are not packet losses (which we have none).}
 
   \item{Explain the relationship between (i) the congestion window, (ii) the
   receiver advertised window, (iii) the number of unacknowledged bytes, and (iv)
   the effective window at the sender.}
   \subitem{(i) The Congestion window,
   starts out small and increases as long as there is no packet losses. When a
-  packet loss is detected the window is cut in half. }
+  packet loss is detected the window is cut in half. (in some implementations) }
   \subitem{(ii) Advertised
   Reciever Window, is how big of a buffer the reciever has allocated for the
   TCP-packets coming in. We can't send packets exceeding this size without
@@ -153,22 +164,36 @@ all previous packets.
   following equation. $ \textit{\#numUnAckBytes} \leq$ min{cwnd, rwnd}}
   \subitem{(iv) The effective sender window in total is the same as the allowed
   unacknowledged bytes. The current available send window must take in account the
-  amount of currently unacknowledged bytes in transit.} \item{Is it generally
+  amount of currently unacknowledged bytes in transit.}
+  \item{Is it generally
   possible to find the congestion window size (i.e. cwnd) and how it changes with
   time, from the captured trace files? If so, please explain how. If not, please
   explain when and when not. Motivate your answer and give examples. Your answer
   may also benefit from trying to describe and discuss your answer in the context
   of the two prior questions, for example.}
-  \subitem{You can see the congestion
-  window if you load the link so heavily that the congestion window starts to take
-  effect.}
+  \subitem{ It is not possible to see the congestion window unless it 1) is
+  smaller than the reciever window or 2) we have packet losses.
+  }
 \end{enumerate}
 
 \section{Task C}
+For task C a suitable fairness measurement is throughput multiplied by the RTT.
+This measurement is proportional to the tcp traffic on the line and for fairness
+should be the same for each connection. This measurement was gleamed from the
+following equation where MSS, L can be viewed as constant:
+\begin{equation}
+\textit{average throughput} = \frac{1.22MSS}{RTT\sqrt{L}} 
+\end{equation}
+
+
+
+
+
 \begin{enumerate}
   \setcounter{enumi}{15}
-  \item{}
-  \subitem{}
+  \item{What is the throughput of each of the connections in bps (bits per second)? What is the total bandwidth of the host on which the clients are running? Discuss the TCP fairness for this case.}
+  \subitem{2.535 Mbit/s 2.547 Mbit/s 2.575 Mbit/s 2.551 Mbit/s with a total bandwith of 10.2 Mbit/s  \newline{}
+  The fairness seems very high since they all have the same RTT and get approximately the same throughput. }
   \item{}
   \subitem{}
   \item{}
