@@ -196,8 +196,25 @@ following equation where MSS, L can be viewed as constant:
   The fairness seems very high since they all have the same RTT and get approximately the same throughput. }
   \item{}
   \subitem{}
-  \item{}
-  \subitem{}
+  \item{What is the throughput of each of the connections in bps
+    (bits per second)? What is the total bandwidth of the host on which
+    the clients are running? Discuss the TCP fairness for this case.}
+  \subitem{Throughputs: 23.23 MBit/s, 15.64 MBit/s, 13.5 MBit/s,
+    12.48 MBit/s, 9.654 MBit/s, 6.280 MBit/s, 5.844 MBit/s, 3.841 MBit/s
+    and 3.486 MBit/s.
+    The total bandwidth is 93.955 MBit/s. The fairness value is lower
+    for the first, second, fifth and sixth connection, it's higher for the
+    eighth and ninth connection and it's in between for the
+    rest of the connections. Since the duration is the same for all connections
+    we want the total transferred bytes multiplied by RTT to be constant.
+    A connection with high RTT should therefore have a lower amount of total
+    transferred bytes and vice versa.}
+  \item{Discuss the TCP fairness for this case.}
+  \subitem{In this case both duration and RTT varies for all connections.
+    Here we want the amount of total transferred bytes times RTT divided by
+    duration to be the same for all connections in order for the TCP to be
+    fair. If we calculate the fairness value for all connections we can see
+    that this TCP is somewhat fair but there are some outliers.}
 \end{enumerate}
 
 
