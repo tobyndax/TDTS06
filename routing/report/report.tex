@@ -15,7 +15,7 @@
 \raggedbottom
 \sloppy
 
-\title{TCP\\
+\title{Distance Vector Routing\\
 \emph{TDTS06}}
 
 \author{David Habrman \\ davha227, 920908-2412\\
@@ -32,14 +32,32 @@ Jens Edhammer \\ jened502, 920128-5112 }
 \newpage
 
 \section{Distance Vector Routing}
-Each router has a Distance Vector, which initially is set to the link costs to it's neighbors and infinity for all others (since we know of no path to them). In addition to the routers own Distance Vector each router has a DistanceTable which can hold each neighbors Distance Vector, this is initialized as infinity except for our own entry which is either set to our own Distance Vector or left empty. (in our case we set it). After initializing everything the router sends it's Distance Vector to each of it's neighbors, which means it's neighbors does the same and we are now getting Distance Vectors in to our router. The first thing we do is save each neighbors Distance Vector in the Distance Table. 
+Each router has a Distance Vector, which initially is set to the link costs to
+it's neighbors and infinity for all others (since we know of no path to them).
+In addition to the routers own Distance Vector each router has a DistanceTable
+which can hold each neighbors Distance Vector, this is initialized as infinity
+except for our own entry which is either set to our own Distance Vector or left
+empty. (in our case we set it). After initializing everything the router sends
+it's Distance Vector to each of it's neighbors, which means it's neighbors does
+the same and we are now getting Distance Vectors in to our router. The first
+thing we do is save each neighbors Distance Vector in the Distance Table.
 
 \section{Testing}
-
+We tested our algorithm with and without poisoned reverse. We tested it on all
+three cases with "LINKCHANGES" both on and off. Our final results was compared
+with the expected values. The expected values were calculated by hand.
 
 \section{Poison reverse fails}
+Poison reverse fails if a link breakes a solution to the link break problem is
+split horizon. This prevents loops by not sending a route back to the router
+from which it was learned. For example, we have the routers A, B and C. A
+connects to B and B connects to C (A and C only connect through B, A-B-C).
+Split horizon prevents node A to send its route to C to router B since the
+route goes through B. If we only have poison reverse there will be a loop
+if the link between B and C breaks. B would learn a path to C through A,
+then A would learn of a path to C through B and so on.
 
-
-
-
+\section{References}
+IP Routing Protocols: RIP, OSPF, BGP, PNNI, and Cisco Routing Protocols by  AvUyless D. Black \\
+Computer Networking: A Top-Down Approach (6th Edition) by James F. Kurose and Keith W. Ross
 \end{document}
