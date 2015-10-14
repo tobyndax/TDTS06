@@ -32,7 +32,20 @@ Jens Edhammer \\ jened502, 920128-5112 }
 \newpage
 
 \section{Distance Vector Routing}
-Each router has a Distance Vector, which initially is set to the link costs to it's neighbors and infinity for all others (since we know of no path to them). In addition to the routers own Distance Vector each router has a DistanceTable which can hold each neighbors Distance Vector, this is initialized as infinity except for our own entry which is either set to our own Distance Vector or left empty (in our case we set it). After initializing everything the router sends it's Distance Vector to each of it's neighbors, which means it's neighbors does the same and we are now getting Distance Vectors in to our router. The first thing we do is save each neighbors Distance Vector in the Distance Table. Then we examine if there is a cheaper path to each destination based on the information we have in the Distance Table. Note that you add the link cost towards the value in the Distance Table for comparison. If we do any changes to our Distance Vector, either route choice or cost we notify all neighbors. Repeat until convergence. Poison reversed sends infinity to A from B, for each route that goes through A in B's Distance Vector.
+Each router has a Distance Vector, which initially is set to the link costs to
+it's neighbors and infinity for all others (since we know of no path to them).
+In addition to the routers own Distance Vector each router has a DistanceTable
+which can hold each neighbors Distance Vector, this is initialized as infinity
+except for our own entry which is either set to our own Distance Vector or left
+empty. (in our case we set it). After initializing everything the router sends
+it's Distance Vector to each of it's neighbors, which means it's neighbors does
+the same and we are now getting Distance Vectors in to our router. The first
+thing we do is save each neighbors Distance Vector in the Distance Table. Then
+we examine if there is a cheaper path to each destination based on the
+information we have in the Distance Table. Note that you add the link cost 
+towards the value in the Distance Table for comparison. If we do any changes
+to our Distance Vector, either route choice or cost we notify all neighbors.
+Repeat until convergence.
 
 \section{Testing}
 We tested our algorithm with and without poisoned reverse. We tested it on all
