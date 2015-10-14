@@ -182,7 +182,7 @@ This measurement is proportional to the tcp traffic on the line and for fairness
 should be the same for each connection. This measurement was gleamed from the
 following equation where MSS, L can be viewed as constant:
 \begin{equation}
-\textit{average throughput} = \frac{1.22MSS}{RTT\sqrt{L}} 
+\textit{average throughput} = \frac{1.22MSS}{RTT\sqrt{L}}
 \end{equation}
 
 
@@ -217,10 +217,12 @@ following equation where MSS, L can be viewed as constant:
     that this TCP is somewhat fair but there are some outliers.}
 \end{enumerate}
 
+The fairness measurement above is not always absolute since alot of external
+factors may interfere. Consider the case where the RTT might be extremely low,
+it might not be possible to grant the client a high enough throughput for fairness.
+In addition the fairness obviously change over time and is based upon the number of
+concurrent users on the link. There is also hardware in both host and user that
+comes into account. 
 
-
-
-
-\section{Discussion}
 
 \end{document}

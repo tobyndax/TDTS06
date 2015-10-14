@@ -1,0 +1,45 @@
+\documentclass[10pt]{article}
+
+\usepackage{times}
+\usepackage{mathptmx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{enumitem}
+\usepackage[margin=1in]{geometry}
+
+\setlength\parindent{0pt}
+
+
+\raggedbottom
+\sloppy
+
+\title{TCP\\
+\emph{TDTS06}}
+
+\author{David Habrman \\ davha227, 920908-2412\\
+Jens Edhammer \\ jened502, 920128-5112 }
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Distance Vector Routing}
+Each router has a Distance Vector, which initially is set to the link costs to it's neighbors and infinity for all others (since we know of no path to them). In addition to the routers own Distance Vector each router has a DistanceTable which can hold each neighbors Distance Vector, this is initialized as infinity except for our own entry which is either set to our own Distance Vector or left empty. (in our case we set it). After initializing everything the router sends it's Distance Vector to each of it's neighbors, which means it's neighbors does the same and we are now getting Distance Vectors in to our router. The first thing we do is save each neighbors Distance Vector in the Distance Table. 
+
+\section{Testing}
+
+
+\section{Poison reverse fails}
+
+
+
+
+\end{document}
